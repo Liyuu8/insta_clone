@@ -76,10 +76,10 @@ flutter:
     - family: NotoSansJP_Bold
       fonts:
         - asset: assets/fonts/NotoSansJP-Bold.otf
-    - family: NotoSansJP-Medium
+    - family: NotoSansJP_Medium
       fonts:
         - asset: assets/fonts/NotoSansJP-Medium.otf
-    - family: NotoSansJP-Regular
+    - family: NotoSansJP_Regular
       fonts:
         - asset: assets/fonts/NotoSansJP-Regular.otf
   #
