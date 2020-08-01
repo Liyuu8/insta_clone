@@ -75,13 +75,13 @@ flutter:
         - asset: assets/fonts/Billabong.ttf
     - family: NotoSansJP_Bold
       fonts:
-        - asset: assets/fonts/NotoSansJP-Bold.ttf
+        - asset: assets/fonts/NotoSansJP-Bold.otf
     - family: NotoSansJP-Medium
       fonts:
-        - asset: assets/fonts/NotoSansJP-Medium.ttf
+        - asset: assets/fonts/NotoSansJP-Medium.otf
     - family: NotoSansJP-Regular
       fonts:
-        - asset: assets/fonts/NotoSansJP-Regular.ttf
+        - asset: assets/fonts/NotoSansJP-Regular.otf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
