@@ -1,0 +1,1 @@
+enum UploadType { GALLERY, CAMERA }
