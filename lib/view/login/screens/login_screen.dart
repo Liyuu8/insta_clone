@@ -16,7 +16,7 @@ import 'package:insta_clone/view/common/components/button_with_icon.dart';
 import 'package:insta_clone/view_models/login_view_model.dart';
 
 // screens
-import 'package:insta_clone/view/screens/home_screen.dart';
+import 'package:insta_clone/view/common/screens/home_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   @override

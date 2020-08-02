@@ -9,8 +9,8 @@ import 'package:insta_clone/style.dart';
 import 'package:insta_clone/generated/l10n.dart';
 
 // screens
-import 'package:insta_clone/view/screens/home_screen.dart';
-import 'package:insta_clone/view/screens/login_screen.dart';
+import 'package:insta_clone/view/common/screens/home_screen.dart';
+import 'package:insta_clone/view/login/screens/login_screen.dart';
 
 // di
 import 'package:insta_clone/di/providers.dart';
