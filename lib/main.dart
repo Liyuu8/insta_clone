@@ -1,18 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
+
+// style
 import 'package:insta_clone/style.dart';
 
 // generated
 import 'package:insta_clone/generated/l10n.dart';
 
 // screens
-import 'package:insta_clone/screens/home_screen.dart';
+import 'package:insta_clone/view/screens/home_screen.dart';
+import 'package:insta_clone/view/screens/login_screen.dart';
 
-void main() => runApp(MyApp());
+// di
+import 'package:insta_clone/di/providers.dart';
+
+// view models
+import 'package:insta_clone/view_models/login_view_model.dart';
+
+void main() => runApp(
+      MultiProvider(
+        providers: globalProviders,
+        child: MyApp(),
+      ),
+    );
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final loginViewModel = context.watch<LoginViewModel>();
+
     return MaterialApp(
       title: 'InstaClone',
       debugShowCheckedModeBanner: false,
@@ -32,8 +49,11 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: S.delegate.supportedLocales, // 多言語対応
-      // TODO:
-      home: HomeScreen(),
+      home: FutureBuilder(
+        future: loginViewModel.isSignIn(),
+        builder: (context, AsyncSnapshot<bool> snapshot) =>
+            snapshot.hasData && snapshot.data ? HomeScreen() : LoginScreen(),
+      ),
     );
   }
 }
