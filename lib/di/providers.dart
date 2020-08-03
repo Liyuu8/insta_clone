@@ -3,6 +3,7 @@ import 'package:provider/single_child_widget.dart';
 
 // models
 import 'package:insta_clone/models/db/database_manager.dart';
+import 'package:insta_clone/models/location/location_manager.dart';
 import 'package:insta_clone/models/repositories/post_repository.dart';
 import 'package:insta_clone/models/repositories/user_repository.dart';
 
@@ -20,16 +21,21 @@ List<SingleChildWidget> independentModels = [
   Provider<DatabaseManager>(
     create: (_) => DatabaseManager(),
   ),
+  Provider<LocationManager>(
+    create: (_) => LocationManager(),
+  )
 ];
 
 List<SingleChildWidget> dependentModels = [
   ProxyProvider<DatabaseManager, UserRepository>(
     update: (_, dbManager, repository) => UserRepository(dbManager: dbManager),
   ),
-  ProxyProvider<DatabaseManager, PostRepository>(
-    // TODO:
-    update: (_, dbManager, repository) => PostRepository(),
-  )
+  ProxyProvider2<DatabaseManager, LocationManager, PostRepository>(
+    update: (_, dbManager, locationManager, repository) => PostRepository(
+      databaseManager: dbManager,
+      locationManager: locationManager,
+    ),
+  ),
 ];
 
 List<SingleChildWidget> viewModels = [

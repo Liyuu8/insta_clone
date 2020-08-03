@@ -70,5 +70,10 @@
     <key>NSMicrophoneUsageDescription</key>
     <string>Your Microphone is required for this app</string>
     <!-- End of the Image-picker Section -->
+
+    <!-- Geo-locator Section -->
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>This app needs access to location when open.</string>
+    <!-- End of the Geo-locator Section -->
 </dict>
 </plist>
