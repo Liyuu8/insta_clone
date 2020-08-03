@@ -19,6 +19,7 @@ class PostViewModel extends ChangeNotifier {
   File imageFile;
   Location location;
   String locationString = '';
+  String caption = '';
 
   bool isProcessing = false;
   bool isImagePicked = false;
