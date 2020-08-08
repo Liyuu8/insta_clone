@@ -75,5 +75,10 @@
     <key>NSLocationWhenInUseUsageDescription</key>
     <string>This app needs access to location when open.</string>
     <!-- End of the Geo-locator Section -->
+
+    <!-- Google Maps Section -->
+    <key>io.flutter.embedded_views_preview</key>
+    <true/>
+    <!-- End of the Google Maps Section -->
 </dict>
 </plist>
