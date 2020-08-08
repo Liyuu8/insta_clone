@@ -71,9 +71,9 @@
     <string>Your Microphone is required for this app</string>
     <!-- End of the Image-picker Section -->
 
-    <!-- Google Maps Section -->
-    <key>io.flutter.embedded_views_preview</key>
-    <true/>
-    <!-- End of the Google Maps Section -->
+    <!-- Geo-locator Section -->
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>This app needs access to location when open.</string>
+    <!-- End of the Geo-locator Section -->
 </dict>
 </plist>

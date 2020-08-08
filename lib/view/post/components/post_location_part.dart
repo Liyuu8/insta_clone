@@ -1,0 +1,51 @@
+import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+
+// generated
+import 'package:insta_clone/generated/l10n.dart';
+
+// style
+import 'package:insta_clone/style.dart';
+
+// data models
+import 'package:insta_clone/data_models/location.dart';
+
+// view models
+import 'package:insta_clone/view_models/post_view_model.dart';
+
+class PostLocationPart extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final postViewModel = context.watch<PostViewModel>();
+
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ListTile(
+        leading: IconButton(
+          icon: FaIcon(FontAwesomeIcons.mapMarkedAlt),
+          // TODO:
+          onPressed: () => null,
+        ),
+        title: Text(postViewModel.locationString, style: postLocationTextStyle),
+        subtitle: _latLonPart(context, postViewModel.location),
+      ),
+    );
+  }
+
+  _latLonPart(BuildContext context, Location location) {
+    const spaceWidth = 8.0;
+    return Wrap(
+      crossAxisAlignment: WrapCrossAlignment.center,
+      children: [
+        Chip(label: Text(S.of(context).latitude)),
+        SizedBox(width: spaceWidth),
+        Text(location.latitude.toStringAsFixed(2)),
+        SizedBox(width: spaceWidth),
+        Chip(label: Text(S.of(context).longitude)),
+        SizedBox(width: spaceWidth),
+        Text(location.longitude.toStringAsFixed(2)),
+      ],
+    );
+  }
+}
