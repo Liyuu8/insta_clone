@@ -43,6 +43,8 @@ android {
         targetSdkVersion 28
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        // TODO: 環境変数の設定
+        manifestPlaceholders = [mapsApiKey: System.getenv("INSTA_CLONE_ANDROID_MAPS_API_KEY")]
     }
 
     buildTypes {

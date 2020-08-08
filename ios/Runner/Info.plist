@@ -70,5 +70,10 @@
     <key>NSMicrophoneUsageDescription</key>
     <string>Your Microphone is required for this app</string>
     <!-- End of the Image-picker Section -->
+
+    <!-- Google Maps Section -->
+    <key>io.flutter.embedded_views_preview</key>
+    <true/>
+    <!-- End of the Google Maps Section -->
 </dict>
 </plist>
