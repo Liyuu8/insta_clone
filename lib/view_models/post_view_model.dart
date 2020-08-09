@@ -49,4 +49,28 @@ class PostViewModel extends ChangeNotifier {
     locationString = _toLocationString(location);
     notifyListeners();
   }
+
+  // 投稿処理
+  Future<void> executePost() async {
+    isProcessing = true;
+    notifyListeners();
+
+    await postRepository.executePost(
+      currentUser: UserRepository.currentUser,
+      imageFile: imageFile,
+      caption: caption,
+      location: location,
+      locationString: locationString,
+    );
+
+    isProcessing = false;
+    isImagePicked = false;
+    notifyListeners();
+  }
+
+  cancelPost() {
+    isProcessing = false;
+    isImagePicked = false;
+    notifyListeners();
+  }
 }

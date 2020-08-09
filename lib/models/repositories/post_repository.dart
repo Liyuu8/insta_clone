@@ -1,8 +1,11 @@
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:uuid/uuid.dart';
 
 // data models
 import 'package:insta_clone/data_models/location.dart';
+import 'package:insta_clone/data_models/post.dart';
+import 'package:insta_clone/data_models/user.dart';
 
 // utils
 import 'package:insta_clone/utils/constants.dart';
@@ -32,5 +35,30 @@ class PostRepository {
 
   Future<Location> updateLocation(double latitude, double longitude) async {
     return await locationManager.updateLocation(latitude, longitude);
+  }
+
+  // 投稿処理
+  Future<void> executePost({
+    User currentUser,
+    File imageFile,
+    String caption,
+    Location location,
+    String locationString,
+  }) async {
+    final String storageId = Uuid().v1();
+    final String imageUrl =
+        await databaseManager.uploadImageToStorage(imageFile, storageId);
+    final post = Post(
+      postId: Uuid().v1(),
+      userId: currentUser.userId,
+      imageUrl: imageUrl,
+      imageStoragePath: storageId,
+      caption: caption,
+      locationString: locationString,
+      latitude: location.latitude,
+      longitude: location.longitude,
+      postDateTime: DateTime.now(),
+    );
+    await databaseManager.insertPost(post);
   }
 }

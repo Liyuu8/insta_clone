@@ -36,17 +36,27 @@ class PostLocationPart extends StatelessWidget {
   }
 
   _latLonPart(BuildContext context, Location location) {
-    const spaceWidth = 8.0;
-    return Wrap(
-      crossAxisAlignment: WrapCrossAlignment.center,
-      children: [
-        Chip(label: Text(S.of(context).latitude)),
-        SizedBox(width: spaceWidth),
-        Text(location.latitude.toStringAsFixed(2)),
-        SizedBox(width: spaceWidth),
-        Chip(label: Text(S.of(context).longitude)),
-        SizedBox(width: spaceWidth),
-        Text(location.longitude.toStringAsFixed(2)),
+    const space = 8.0;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        SizedBox(height: space),
+        Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            Chip(label: Text(S.of(context).latitude)),
+            SizedBox(width: space),
+            Text(location.latitude.toStringAsFixed(2)),
+          ],
+        ),
+        Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            Chip(label: Text(S.of(context).longitude)),
+            SizedBox(width: space),
+            Text(location.longitude.toStringAsFixed(2)),
+          ],
+        ),
       ],
     );
   }

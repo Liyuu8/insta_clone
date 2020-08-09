@@ -1,8 +1,11 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 // data models
 import 'package:insta_clone/data_models/user.dart';
+import 'package:insta_clone/data_models/post.dart';
 
 class DatabaseManager {
   final Firestore _db = Firestore.instance;
@@ -26,5 +29,16 @@ class DatabaseManager {
         .where('userId', isEqualTo: userId)
         .getDocuments();
     return User.fromMap(query.documents.first.data);
+  }
+
+  Future<String> uploadImageToStorage(File imageFile, String storageId) async {
+    final storageRef = FirebaseStorage.instance.ref().child(storageId);
+    final uploadTask = storageRef.putFile(imageFile);
+    return await (await uploadTask.onComplete).ref.getDownloadURL();
+  }
+
+  Future<void> insertPost(Post post) async {
+    // toMapを用いて投稿情報をDBで登録する形へ自動変換
+    await _db.collection('posts').document(post.postId).setData(post.toMap());
   }
 }
