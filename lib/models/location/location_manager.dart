@@ -8,8 +8,13 @@ class LocationManager {
     final position = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
     final placeMarks = await Geolocator().placemarkFromPosition(position);
-    final placeMark = placeMarks.first;
-    return Future.value(_convert(placeMark));
+    return Future.value(_convert(placeMarks.first));
+  }
+
+  Future<Location> updateLocation(double latitude, double longitude) async {
+    final placeMarks =
+        await Geolocator().placemarkFromCoordinates(latitude, longitude);
+    return Future.value(_convert(placeMarks.first));
   }
 
   Location _convert(Placemark placeMark) => Location(

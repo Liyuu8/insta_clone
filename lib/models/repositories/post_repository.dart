@@ -29,4 +29,8 @@ class PostRepository {
   Future<Location> getCurrentLocation() async {
     return await locationManager.getCurrentLocation();
   }
+
+  Future<Location> updateLocation(double latitude, double longitude) async {
+    return await locationManager.updateLocation(latitude, longitude);
+  }
 }

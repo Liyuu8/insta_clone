@@ -14,6 +14,9 @@ import 'package:insta_clone/data_models/location.dart';
 // view models
 import 'package:insta_clone/view_models/post_view_model.dart';
 
+// screens
+import 'package:insta_clone/view/post/screens/map_screen.dart';
+
 class PostLocationPart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -24,8 +27,7 @@ class PostLocationPart extends StatelessWidget {
       child: ListTile(
         leading: IconButton(
           icon: FaIcon(FontAwesomeIcons.mapMarkedAlt),
-          // TODO:
-          onPressed: () => null,
+          onPressed: () => _openMapScreen(context, postViewModel.location),
         ),
         title: Text(postViewModel.locationString, style: postLocationTextStyle),
         subtitle: _latLonPart(context, postViewModel.location),
@@ -46,6 +48,13 @@ class PostLocationPart extends StatelessWidget {
         SizedBox(width: spaceWidth),
         Text(location.longitude.toStringAsFixed(2)),
       ],
+    );
+  }
+
+  _openMapScreen(BuildContext context, Location location) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => MapScreen(location: location)),
     );
   }
 }
