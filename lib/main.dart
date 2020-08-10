@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:timeago/timeago.dart' as timeAgo;
 
 // style
 import 'package:insta_clone/style.dart';
@@ -18,12 +19,15 @@ import 'package:insta_clone/di/providers.dart';
 // view models
 import 'package:insta_clone/view_models/login_view_model.dart';
 
-void main() => runApp(
-      MultiProvider(
-        providers: globalProviders,
-        child: MyApp(),
-      ),
-    );
+void main() {
+  timeAgo.setLocaleMessages('ja', timeAgo.JaMessages());
+  runApp(
+    MultiProvider(
+      providers: globalProviders,
+      child: MyApp(),
+    ),
+  );
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -40,7 +44,6 @@ class MyApp extends StatelessWidget {
         iconTheme: IconThemeData(color: Colors.white),
         fontFamily: RegularFont,
       ),
-
       localizationsDelegates: [
         // 多言語対応
         S.delegate,

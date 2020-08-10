@@ -75,4 +75,7 @@ class UserRepository {
       bio: '',
     );
   }
+
+  Future<User> getUserById(String userId) async =>
+      await dbManager.getUserInfoFromDbById(userId);
 }

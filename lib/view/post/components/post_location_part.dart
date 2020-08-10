@@ -22,16 +22,13 @@ class PostLocationPart extends StatelessWidget {
   Widget build(BuildContext context) {
     final postViewModel = context.watch<PostViewModel>();
 
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: ListTile(
-        leading: IconButton(
-          icon: FaIcon(FontAwesomeIcons.mapMarkedAlt),
-          onPressed: () => _openMapScreen(context, postViewModel.location),
-        ),
-        title: Text(postViewModel.locationString, style: postLocationTextStyle),
-        subtitle: _latLonPart(context, postViewModel.location),
+    return ListTile(
+      leading: IconButton(
+        icon: FaIcon(FontAwesomeIcons.mapMarkedAlt),
+        onPressed: () => _openMapScreen(context, postViewModel.location),
       ),
+      title: Text(postViewModel.locationString, style: postLocationTextStyle),
+      subtitle: _latLonPart(context, postViewModel.location),
     );
   }
 

@@ -7,6 +7,9 @@ import 'package:insta_clone/utils/constants.dart';
 // view models
 import 'package:insta_clone/view_models/feed_view_model.dart';
 
+// components
+import 'package:insta_clone/view/feed/components/feed_post_tile.dart';
+
 class FeedSubPage extends StatelessWidget {
   final FeedMode feedMode;
   FeedSubPage({@required this.feedMode});
@@ -18,10 +21,14 @@ class FeedSubPage extends StatelessWidget {
     feedViewModel.setFeedUser(feedMode, null); // TODO: user情報取得
     Future(() => feedViewModel.getPosts(feedMode));
 
-    return Scaffold(
-      body: Center(
-        child: Text('FeedSubPage'),
-      ),
+    return Consumer<FeedViewModel>(
+      builder: (context, model, child) => feedViewModel.isProcessing
+          ? Center(child: CircularProgressIndicator())
+          : ListView.builder(
+              itemCount: model.posts.length,
+              itemBuilder: (context, index) =>
+                  FeedPostTile(feedMode: feedMode, post: model.posts[index]),
+            ),
     );
   }
 }
