@@ -79,4 +79,10 @@ class DatabaseManager {
     return query.documents
         .map((DocumentSnapshot snapshot) => snapshot.data['userId']);
   }
+
+  Future<void> updatePost(Post updatedPost) async {
+    final DocumentReference reference =
+        _db.collection('posts').document(updatedPost.postId);
+    await reference.updateData(updatedPost.toMap());
+  }
 }

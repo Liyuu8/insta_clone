@@ -67,4 +67,8 @@ class PostRepository {
         ? databaseManager.getMyselfAndFollowingUsersPosts(feedUser.userId)
         : databaseManager.getProfileUserPosts(feedUser.userId);
   }
+
+  Future<void> updatePost(Post updatedPost) async {
+    return databaseManager.updatePost(updatedPost);
+  }
 }

@@ -30,7 +30,7 @@ class _CommentRichTextState extends State<CommentRichText> {
           style: DefaultTextStyle.of(context).style,
           children: <TextSpan>[
             TextSpan(text: widget.name, style: commentNameTextStyle),
-            TextSpan(text: ' '),
+            TextSpan(text: '  '),
             TextSpan(text: widget.content, style: commentContentTextStyle),
           ],
         ),

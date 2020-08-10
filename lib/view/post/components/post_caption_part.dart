@@ -10,28 +10,43 @@ import 'package:insta_clone/view_models/post_view_model.dart';
 // components
 import 'package:insta_clone/view/post/components/hero_image.dart';
 import 'package:insta_clone/view/post/components/post_caption_input_text_field.dart';
+import 'package:insta_clone/view/feed/components/sub/image_from_url.dart';
 
 // screens
 import 'package:insta_clone/view/post/screens/enlarge_image_screen.dart';
 
+// data models
+import 'package:insta_clone/data_models/post.dart';
+
 class PostCaptionPart extends StatelessWidget {
   final PostCaptionOpenMode from;
-  PostCaptionPart({@required this.from});
+  final Post post;
+  PostCaptionPart({@required this.from, this.post});
 
   @override
   Widget build(BuildContext context) {
     final postViewModel = context.watch<PostViewModel>();
-    final image = Image.file(postViewModel.imageFile);
 
     return from == PostCaptionOpenMode.FROM_POST
         ? ListTile(
             leading: HeroImage(
-              image: image,
-              onTap: () => _displayLargeImage(context, image),
+              image: Image.file(postViewModel.imageFile),
+              onTap: () => _displayLargeImage(
+                context,
+                Image.file(postViewModel.imageFile),
+              ),
             ),
-            title: PostCaptionInputTextField(),
+            title: PostCaptionInputTextField(from: from),
           )
-        : Container();
+        : Column(
+            children: <Widget>[
+              ImageFromUrl(imageUrl: post.imageUrl),
+              PostCaptionInputTextField(
+                from: from,
+                cationBeforeEdited: post.caption,
+              ),
+            ],
+          );
   }
 
   _displayLargeImage(BuildContext context, Image image) => Navigator.push(

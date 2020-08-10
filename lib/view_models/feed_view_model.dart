@@ -20,6 +20,7 @@ class FeedViewModel extends ChangeNotifier {
   List<Post> posts = [];
   User get currentUser => UserRepository.currentUser;
   User feedUser;
+  String caption = '';
 
   setFeedUser(FeedMode feedMode, User user) => feedUser =
       feedMode == FeedMode.MYSELF_AND_FOLLOWING_USERS ? currentUser : user;
@@ -36,4 +37,16 @@ class FeedViewModel extends ChangeNotifier {
 
   Future<User> getPostUserInfo(String userId) async =>
       await userRepository.getUserById(userId);
+
+  Future<void> updatePost(Post post, FeedMode feedMode) async {
+    isProcessing = true;
+    notifyListeners();
+
+    await postRepository.updatePost(post.copyWith(caption: caption));
+    // 投稿を再取得する
+    getPosts(feedMode);
+
+    isProcessing = false;
+    notifyListeners();
+  }
 }

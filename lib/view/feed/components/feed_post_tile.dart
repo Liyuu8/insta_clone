@@ -37,6 +37,7 @@ class FeedPostTile extends StatelessWidget {
                       postUser: snapshot.data,
                       currentUser: feedViewModel.currentUser,
                       post: post,
+                      feedMode: feedMode,
                     ),
                     ImageFromUrl(imageUrl: post.imageUrl),
                     FeedPostDetailsPart(postUser: snapshot.data, post: post),

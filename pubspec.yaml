@@ -48,6 +48,7 @@ dependencies:
   uuid: ^2.2.0
   flutter_advanced_networkimage: ^0.7.0
   timeago: ^2.0.26
+  share: ^0.6.4+3
 
 dev_dependencies:
   flutter_test:
