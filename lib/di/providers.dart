@@ -8,6 +8,7 @@ import 'package:insta_clone/models/repositories/post_repository.dart';
 import 'package:insta_clone/models/repositories/user_repository.dart';
 
 // view models
+import 'package:insta_clone/view_models/feed_view_model.dart';
 import 'package:insta_clone/view_models/login_view_model.dart';
 import 'package:insta_clone/view_models/post_view_model.dart';
 
@@ -23,7 +24,7 @@ List<SingleChildWidget> independentModels = [
   ),
   Provider<LocationManager>(
     create: (_) => LocationManager(),
-  )
+  ),
 ];
 
 List<SingleChildWidget> dependentModels = [
@@ -49,5 +50,11 @@ List<SingleChildWidget> viewModels = [
       userRepository: context.read<UserRepository>(),
       postRepository: context.read<PostRepository>(),
     ),
-  )
+  ),
+  ChangeNotifierProvider<FeedViewModel>(
+    create: (context) => FeedViewModel(
+      userRepository: context.read<UserRepository>(),
+      postRepository: context.read<PostRepository>(),
+    ),
+  ),
 ];

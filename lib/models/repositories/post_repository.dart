@@ -61,4 +61,10 @@ class PostRepository {
     );
     await databaseManager.insertPost(post);
   }
+
+  Future<List<Post>> getPosts(FeedMode feedMode, User feedUser) async {
+    return feedMode == FeedMode.MYSELF_AND_FOLLOWING_USERS
+        ? databaseManager.getMyselfAndFollowingUsersPosts(feedUser.userId)
+        : databaseManager.getProfileUserPosts(feedUser.userId);
+  }
 }

@@ -41,4 +41,42 @@ class DatabaseManager {
     // toMapを用いて投稿情報をDBで登録する形へ自動変換
     await _db.collection('posts').document(post.postId).setData(post.toMap());
   }
+
+  Future<List<Post>> getMyselfAndFollowingUsersPosts(String myUserId) async {
+    final query = await _db.collection('posts').getDocuments();
+    if (query.documents.length == 0) {
+      return [];
+    }
+
+    List<String> userIds = await _getFollowingUserIds(myUserId);
+    userIds.add(myUserId);
+
+    return await _db
+        .collection('posts')
+        .where('userId', whereIn: userIds)
+        .orderBy('postDateTime', descending: true)
+        .getDocuments()
+        .then(
+          (QuerySnapshot querySnapshot) => querySnapshot.documents
+              .map((DocumentSnapshot snapshot) => Post.fromMap(snapshot.data))
+              .toList(),
+        );
+  }
+
+  // TODO:
+  getProfileUserPosts(String userId) {}
+
+  Future<List<String>> _getFollowingUserIds(String userId) async {
+    final query = await _db
+        .collection('users')
+        .document(userId)
+        .collection('followings')
+        .getDocuments();
+    if (query.documents.length == 0) {
+      return [];
+    }
+
+    return query.documents
+        .map((DocumentSnapshot snapshot) => snapshot.data['userId']);
+  }
 }
