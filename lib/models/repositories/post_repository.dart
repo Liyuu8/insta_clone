@@ -4,6 +4,7 @@ import 'package:uuid/uuid.dart';
 
 // data models
 import 'package:insta_clone/data_models/comment.dart';
+import 'package:insta_clone/data_models/like.dart';
 import 'package:insta_clone/data_models/location.dart';
 import 'package:insta_clone/data_models/post.dart';
 import 'package:insta_clone/data_models/user.dart';
@@ -94,5 +95,15 @@ class PostRepository {
 
   Future<void> deleteComment(String deleteCommentId) async {
     await databaseManager.deleteComment(deleteCommentId);
+  }
+
+  Future<void> likeIt(Post post, User currentUser) async {
+    final like = Like(
+      likeId: Uuid().v1(),
+      likedPostId: post.postId,
+      likeUserId: currentUser.userId,
+      likeDateTime: DateTime.now(),
+    );
+    await databaseManager.likeIt(like);
   }
 }

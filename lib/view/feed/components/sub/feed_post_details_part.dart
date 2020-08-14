@@ -60,7 +60,7 @@ class FeedPostDetailsPart extends StatelessWidget {
             children: <Widget>[
               IconButton(
                 icon: FaIcon(FontAwesomeIcons.solidHeart),
-                onPressed: () => null, // TODO: いいねをつける
+                onPressed: () => _likeIt(context),
                 padding: const EdgeInsets.all(1.0),
               ),
               InkWell(
@@ -119,5 +119,10 @@ class FeedPostDetailsPart extends StatelessWidget {
         builder: (_) => CommentsScreen(post: post, postUser: postUser),
       ),
     );
+  }
+
+  _likeIt(BuildContext context) async {
+    final feedViewModel = context.read<FeedViewModel>();
+    await feedViewModel.likeIt(post);
   }
 }

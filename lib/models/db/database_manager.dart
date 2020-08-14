@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 // data models
 import 'package:insta_clone/data_models/comment.dart';
+import 'package:insta_clone/data_models/like.dart';
 import 'package:insta_clone/data_models/user.dart';
 import 'package:insta_clone/data_models/post.dart';
 
@@ -117,5 +118,9 @@ class DatabaseManager {
   Future<void> deleteComment(String deleteCommentId) async {
     final reference = _db.collection('comments').document(deleteCommentId);
     await reference.delete();
+  }
+
+  Future<void> likeIt(Like like) async {
+    await _db.collection('likes').document(like.likeId).setData(like.toMap());
   }
 }
