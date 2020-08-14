@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 // data models
+import 'package:insta_clone/data_models/comment.dart';
 import 'package:insta_clone/data_models/user.dart';
 import 'package:insta_clone/data_models/post.dart';
 
@@ -84,5 +85,32 @@ class DatabaseManager {
     final DocumentReference reference =
         _db.collection('posts').document(updatedPost.postId);
     await reference.updateData(updatedPost.toMap());
+  }
+
+  Future<void> postComment(Comment comment) async {
+    await _db
+        .collection('comments')
+        .document(comment.commentId)
+        .setData(comment.toMap());
+  }
+
+  Future<List<Comment>> getComments(String postId) async {
+    final query = await _db.collection('comments').getDocuments();
+    if (query.documents.length == 0) {
+      return [];
+    }
+
+    return await _db
+        .collection('comments')
+        .where('postId', isEqualTo: postId)
+        .orderBy('commentDateTime')
+        .getDocuments()
+        .then(
+          (QuerySnapshot querySnapshot) => querySnapshot.documents
+              .map(
+                (DocumentSnapshot snapshot) => Comment.fromMap(snapshot.data),
+              )
+              .toList(),
+        );
   }
 }

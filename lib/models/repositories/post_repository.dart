@@ -3,6 +3,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 
 // data models
+import 'package:insta_clone/data_models/comment.dart';
 import 'package:insta_clone/data_models/location.dart';
 import 'package:insta_clone/data_models/post.dart';
 import 'package:insta_clone/data_models/user.dart';
@@ -70,5 +71,24 @@ class PostRepository {
 
   Future<void> updatePost(Post updatedPost) async {
     return databaseManager.updatePost(updatedPost);
+  }
+
+  Future<void> postComment(
+    Post post,
+    User commentUser,
+    String commentContent,
+  ) async {
+    final comment = Comment(
+      commentId: Uuid().v1(),
+      postId: post.postId,
+      commentUserId: commentUser.userId,
+      comment: commentContent,
+      commentDateTime: DateTime.now(),
+    );
+    await databaseManager.postComment(comment);
+  }
+
+  Future<List<Comment>> getComments(String postId) async {
+    return await databaseManager.getComments(postId);
   }
 }

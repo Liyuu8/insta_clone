@@ -17,6 +17,9 @@ import 'package:insta_clone/data_models/user.dart';
 // components
 import 'package:insta_clone/view/common/components/comment_rich_text.dart';
 
+// screens
+import 'package:insta_clone/view/comments/screens/comments_screen.dart';
+
 class FeedPostDetailsPart extends StatelessWidget {
   final User postUser;
   final Post post;
@@ -58,7 +61,7 @@ class FeedPostDetailsPart extends StatelessWidget {
               SizedBox(width: 8.0),
               IconButton(
                 icon: FaIcon(FontAwesomeIcons.comment),
-                onPressed: () => null, // TODO: コメントを入力する画面に遷移する
+                onPressed: () => _openCommentsScreen(context, post, postUser),
                 padding: const EdgeInsets.all(1.0),
               ),
               InkWell(
@@ -84,6 +87,15 @@ class FeedPostDetailsPart extends StatelessWidget {
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  _openCommentsScreen(BuildContext context, Post post, User postUser) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => CommentsScreen(post: post, postUser: postUser),
       ),
     );
   }
