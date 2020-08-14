@@ -11,6 +11,7 @@ import 'package:insta_clone/data_models/user.dart';
 // components
 import 'package:insta_clone/view/comments/components/comment_display_part.dart';
 import 'package:insta_clone/view/comments/components/comment_input_part.dart';
+import 'package:insta_clone/view/common/components/dialog/confirm_dialog.dart';
 
 // view model
 import 'package:insta_clone/view_models/comments_view_model.dart';
@@ -64,6 +65,14 @@ class CommentsScreen extends StatelessWidget {
                                   displayName: postUser.displayName,
                                   content: comment.comment,
                                   postDateTime: comment.commentDateTime,
+                                  onLongPressed: () => showConfirmDialog(
+                                    context: context,
+                                    title: S.of(context).deleteComment,
+                                    content: S.of(context).deleteCommentConfirm,
+                                    onConfirmed: (isConfirmed) => isConfirmed
+                                        ? _deleteComment(context, index)
+                                        : null,
+                                  ),
                                 ),
                               )
                             : Container();
@@ -78,5 +87,10 @@ class CommentsScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _deleteComment(BuildContext context, int commentIndex) async {
+    final commentsViewModel = context.read<CommentsViewModel>();
+    await commentsViewModel.deleteComment(post, commentIndex);
   }
 }

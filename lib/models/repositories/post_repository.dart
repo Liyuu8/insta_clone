@@ -91,4 +91,8 @@ class PostRepository {
   Future<List<Comment>> getComments(String postId) async {
     return await databaseManager.getComments(postId);
   }
+
+  Future<void> deleteComment(String deleteCommentId) async {
+    await databaseManager.deleteComment(deleteCommentId);
+  }
 }
