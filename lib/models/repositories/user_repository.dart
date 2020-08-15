@@ -78,4 +78,10 @@ class UserRepository {
 
   Future<User> getUserById(String userId) async =>
       await dbManager.getUserInfoFromDbById(userId);
+
+  Future<void> signOut() async {
+    await _googleSignIn.signOut();
+    await _auth.signOut();
+    currentUser = null;
+  }
 }

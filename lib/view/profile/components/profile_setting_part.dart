@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 // generated
 import 'package:insta_clone/generated/l10n.dart';
 
 // utils
 import 'package:insta_clone/utils/constants.dart';
+
+// view models
+import 'package:insta_clone/view_models/profile_view_model.dart';
+
+// screens
+import 'package:insta_clone/view/login/screens/login_screen.dart';
 
 class ProfileSettingPart extends StatelessWidget {
   final ProfileMode profileMode;
@@ -35,6 +42,23 @@ class ProfileSettingPart extends StatelessWidget {
     );
   }
 
-  // TODO:
-  _onPopupMenuSelected(BuildContext context, value) {}
+  _onPopupMenuSelected(BuildContext context, ProfileSettingMenu selectedMenu) {
+    switch (selectedMenu) {
+      case ProfileSettingMenu.THEME_CHANGE:
+        // TODO:
+        break;
+      case ProfileSettingMenu.SIGN_OUT:
+        _signOut(context);
+        break;
+    }
+  }
+
+  _signOut(BuildContext context) async {
+    final profileViewModel = context.read<ProfileViewModel>();
+    profileViewModel.signOut();
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => LoginScreen()),
+    );
+  }
 }
