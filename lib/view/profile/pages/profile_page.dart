@@ -10,6 +10,9 @@ import 'package:insta_clone/utils/constants.dart';
 // view models
 import 'package:insta_clone/view_models/profile_view_model.dart';
 
+// components
+import 'package:insta_clone/view/profile/components/profile_setting_part.dart';
+
 class ProfilePage extends StatelessWidget {
   final ProfileMode profileMode;
   final User selectedUser;
@@ -25,8 +28,24 @@ class ProfilePage extends StatelessWidget {
 
     return Scaffold(
       body: Consumer<ProfileViewModel>(
-        builder: (context, model, child) => Center(
-          child: Text('user posts number is ${model.posts.length.toString()}'),
+        builder: (context, model, child) => CustomScrollView(
+          slivers: <Widget>[
+            SliverAppBar(
+              title: Text(model.profileUser.inAppUserName),
+              pinned: true,
+              floating: true,
+              actions: <Widget>[
+                ProfileSettingPart(
+                  profileMode: profileMode,
+                ),
+              ],
+              expandedHeight: 280.0,
+              flexibleSpace: FlexibleSpaceBar(
+                // TODO: ProfileDetailPart
+                background: Container(),
+              ),
+            ),
+          ],
         ),
       ),
     );
