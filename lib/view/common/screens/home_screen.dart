@@ -4,6 +4,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // generated
 import 'package:insta_clone/generated/l10n.dart';
 
+// constants
+import 'package:insta_clone/utils/constants.dart';
+
 // pages
 import 'package:insta_clone/view/activities/pages/activities_page.dart';
 import 'package:insta_clone/view/feed/pages/feed_page.dart';
@@ -28,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
       SearchPage(),
       PostPage(),
       ActivitiesPage(),
-      ProfilePage(),
+      ProfilePage(profileMode: ProfileMode.MYSELF),
     ];
   }
 

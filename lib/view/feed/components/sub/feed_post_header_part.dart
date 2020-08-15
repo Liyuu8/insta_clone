@@ -18,6 +18,7 @@ import 'package:insta_clone/view/common/components/dialog/confirm_dialog.dart';
 
 // screens
 import 'package:insta_clone/view/feed/screens/feed_post_edit_screen.dart';
+import 'package:insta_clone/view/profile/screens/profile_screen.dart';
 
 // view models
 import 'package:insta_clone/view_models/feed_view_model.dart';
@@ -40,7 +41,7 @@ class FeedPostHeaderPart extends StatelessWidget {
       photoUrl: postUser.photoUrl,
       title: postUser.inAppUserName,
       subTitle: post.locationString,
-      onTap: () => null, // TODO: プロフィール画面へ遷移する
+      onTap: () => _openProfile(context, postUser),
       trailing: PopupMenuButton(
         icon: Icon(Icons.more_vert),
         onSelected: (selected) => _onPopupMenuSelected(context, selected),
@@ -101,5 +102,20 @@ class FeedPostHeaderPart extends StatelessWidget {
   _deletePost(BuildContext context, Post post) async {
     final feedViewModel = context.read<FeedViewModel>();
     await feedViewModel.deletePost(post, feedMode);
+  }
+
+  _openProfile(BuildContext context, User postUser) {
+    final feedViewModel = context.read<FeedViewModel>();
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => ProfileScreen(
+          profileMode: postUser.userId == feedViewModel.currentUser.userId
+              ? ProfileMode.MYSELF
+              : ProfileMode.OTHER,
+          selectedUser: postUser,
+        ),
+      ),
+    );
   }
 }

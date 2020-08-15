@@ -65,8 +65,23 @@ class DatabaseManager {
         );
   }
 
-  // TODO:
-  getProfileUserPosts(String userId) {}
+  Future<List<Post>> getProfileUserPosts(String profileUserId) async {
+    final query = await _db.collection('posts').getDocuments();
+    if (query.documents.length == 0) {
+      return [];
+    }
+
+    return await _db
+        .collection('posts')
+        .where('userId', isEqualTo: profileUserId)
+        .orderBy('postDateTime', descending: true)
+        .getDocuments()
+        .then(
+          (QuerySnapshot querySnapshot) => querySnapshot.documents
+              .map((DocumentSnapshot snapshot) => Post.fromMap(snapshot.data))
+              .toList(),
+        );
+  }
 
   Future<List<String>> _getFollowingUserIds(String userId) async {
     final query = await _db
