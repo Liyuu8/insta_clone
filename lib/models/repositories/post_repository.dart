@@ -123,4 +123,8 @@ class PostRepository {
       ),
     );
   }
+
+  Future<void> deletePost(String postId, String imageStoragePath) async {
+    await databaseManager.deletePost(postId, imageStoragePath);
+  }
 }

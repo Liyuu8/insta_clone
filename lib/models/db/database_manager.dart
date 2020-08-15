@@ -153,4 +153,34 @@ class DatabaseManager {
               .toList(),
         );
   }
+
+  Future<void> deletePost(String postId, String imageStoragePath) async {
+    // delete post
+    await _db.collection('posts').document(postId).delete();
+
+    // delete comment
+    await _db
+        .collection('comments')
+        .where('postId', isEqualTo: postId)
+        .getDocuments()
+        .then(
+          (QuerySnapshot querySnapshot) => querySnapshot.documents.forEach(
+            (DocumentSnapshot snapshot) => snapshot.reference.delete(),
+          ),
+        );
+
+    // delete like
+    await _db
+        .collection('likes')
+        .where('likedPostId', isEqualTo: postId)
+        .getDocuments()
+        .then(
+          (QuerySnapshot querySnapshot) => querySnapshot.documents.forEach(
+            (DocumentSnapshot snapshot) => snapshot.reference.delete(),
+          ),
+        );
+
+    // delete image
+    await FirebaseStorage.instance.ref().child(imageStoragePath).delete();
+  }
 }

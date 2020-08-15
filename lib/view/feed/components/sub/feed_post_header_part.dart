@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
+import 'package:provider/provider.dart';
 
 // generated
 import 'package:insta_clone/generated/l10n.dart';
@@ -13,9 +14,13 @@ import 'package:insta_clone/data_models/user.dart';
 
 // components
 import 'package:insta_clone/view/common/components/user_card.dart';
+import 'package:insta_clone/view/common/components/dialog/confirm_dialog.dart';
 
 // screens
 import 'package:insta_clone/view/feed/screens/feed_post_edit_screen.dart';
+
+// view models
+import 'package:insta_clone/view_models/feed_view_model.dart';
 
 class FeedPostHeaderPart extends StatelessWidget {
   final User postUser;
@@ -35,7 +40,7 @@ class FeedPostHeaderPart extends StatelessWidget {
       photoUrl: postUser.photoUrl,
       title: postUser.inAppUserName,
       subTitle: post.locationString,
-      onTap: () => null, // TODO:
+      onTap: () => null, // TODO: プロフィール画面へ遷移する
       trailing: PopupMenuButton(
         icon: Icon(Icons.more_vert),
         onSelected: (selected) => _onPopupMenuSelected(context, selected),
@@ -79,12 +84,22 @@ class FeedPostHeaderPart extends StatelessWidget {
         );
         break;
       case PostMenu.DELETE:
-        // TODO:
+        showConfirmDialog(
+          context: context,
+          title: S.of(context).deletePost,
+          content: S.of(context).deletePostConfirm,
+          onConfirmed: (isConfirmed) =>
+              isConfirmed ? _deletePost(context, post) : null,
+        );
         break;
       case PostMenu.SHARE:
         Share.share(post.imageUrl, subject: post.caption);
         break;
-      default:
     }
+  }
+
+  _deletePost(BuildContext context, Post post) async {
+    final feedViewModel = context.read<FeedViewModel>();
+    await feedViewModel.deletePost(post, feedMode);
   }
 }
