@@ -106,4 +106,21 @@ class PostRepository {
     );
     await databaseManager.likeIt(like);
   }
+
+  Future<void> unLikeIt(Post post, User currentUser) async {
+    await databaseManager.unLikeIt(post, currentUser);
+  }
+
+  Future<LikeResult> getLikeResult(String likedPostId, User currentUser) async {
+    // 「いいね」の取得
+    final likes = await databaseManager.getLikeResult(likedPostId);
+
+    // 自分が「いいね」したものを取得
+    return LikeResult(
+      likes: likes,
+      isLikedToThisPost: likes.any(
+        (like) => like.likeUserId == currentUser.userId,
+      ),
+    );
+  }
 }

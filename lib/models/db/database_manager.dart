@@ -123,4 +123,34 @@ class DatabaseManager {
   Future<void> likeIt(Like like) async {
     await _db.collection('likes').document(like.likeId).setData(like.toMap());
   }
+
+  Future<void> unLikeIt(Post post, User currentUser) async {
+    await _db
+        .collection('likes')
+        .where('likedPostId', isEqualTo: post.postId)
+        .where('likeUserId', isEqualTo: currentUser.userId)
+        .getDocuments()
+        .then(
+          (QuerySnapshot snapshot) =>
+              snapshot.documents.first.reference.delete(),
+        );
+  }
+
+  Future<List<Like>> getLikeResult(String likedPostId) async {
+    final query = await _db.collection('likes').getDocuments();
+    if (query.documents.length == 0) {
+      return [];
+    }
+
+    return await _db
+        .collection('likes')
+        .where('likedPostId', isEqualTo: likedPostId)
+        .orderBy('likeDateTime')
+        .getDocuments()
+        .then(
+          (QuerySnapshot querySnapshot) => querySnapshot.documents
+              .map((DocumentSnapshot snapshot) => Like.fromMap(snapshot.data))
+              .toList(),
+        );
+  }
 }

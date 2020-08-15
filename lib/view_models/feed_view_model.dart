@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 // data models
 import 'package:insta_clone/data_models/comment.dart';
+import 'package:insta_clone/data_models/like.dart';
 import 'package:insta_clone/data_models/post.dart';
 import 'package:insta_clone/data_models/user.dart';
 
@@ -56,7 +57,20 @@ class FeedViewModel extends ChangeNotifier {
   }
 
   Future<void> likeIt(Post post) async {
+    isProcessing = true;
     await postRepository.likeIt(post, currentUser);
+    isProcessing = false;
     notifyListeners();
+  }
+
+  Future<void> unLikeIt(Post post) async {
+    isProcessing = true;
+    await postRepository.unLikeIt(post, currentUser);
+    isProcessing = false;
+    notifyListeners();
+  }
+
+  Future<LikeResult> getLikeResult(String likedPostId) async {
+    return await postRepository.getLikeResult(likedPostId, currentUser);
   }
 }

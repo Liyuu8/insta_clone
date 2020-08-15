@@ -13,6 +13,7 @@ import 'package:insta_clone/style.dart';
 
 // data models
 import 'package:insta_clone/data_models/comment.dart';
+import 'package:insta_clone/data_models/like.dart';
 import 'package:insta_clone/data_models/post.dart';
 import 'package:insta_clone/data_models/user.dart';
 
@@ -58,20 +59,44 @@ class FeedPostDetailsPart extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              IconButton(
-                icon: FaIcon(FontAwesomeIcons.solidHeart),
-                onPressed: () => _likeIt(context),
-                padding: const EdgeInsets.all(1.0),
-              ),
-              InkWell(
-                onTap: () => null, // TODO: いいねしているユーザー一覧画面に遷移する
-                child: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Text(
-                    '0 ${S.of(context).likes}',
-                    style: numberOfLikesAndCommentsTextStyle,
-                  ),
-                ),
+              FutureBuilder(
+                future: feedViewModel.getLikeResult(post.postId),
+                builder: (context, AsyncSnapshot<LikeResult> snapshot) {
+                  final likeResult = snapshot.data;
+                  return snapshot.hasData && snapshot.data != null
+                      ? Row(
+                          children: <Widget>[
+                            likeResult.isLikedToThisPost
+                                ? IconButton(
+                                    icon: FaIcon(FontAwesomeIcons.solidHeart),
+                                    onPressed: () => !feedViewModel.isProcessing
+                                        ? _unLikeIt(context)
+                                        : null,
+                                    padding: const EdgeInsets.all(1.0),
+                                  )
+                                : IconButton(
+                                    icon: FaIcon(FontAwesomeIcons.heart),
+                                    onPressed: () => !feedViewModel.isProcessing
+                                        ? _likeIt(context)
+                                        : null,
+                                    padding: const EdgeInsets.all(1.0),
+                                  ),
+                            InkWell(
+                              onTap: () => null, // TODO: いいねしているユーザー一覧画面に遷移する
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Text(
+                                  likeResult.likes.length.toString() +
+                                      ' ' +
+                                      S.of(context).likes,
+                                  style: numberOfLikesAndCommentsTextStyle,
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      : Container();
+                },
               ),
               SizedBox(width: 8.0),
               IconButton(
@@ -83,25 +108,17 @@ class FeedPostDetailsPart extends StatelessWidget {
                 onTap: () => _openCommentsScreen(context, post, postUser),
                 child: Padding(
                   padding: const EdgeInsets.all(4.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      FutureBuilder(
-                        future: feedViewModel.getComments(post.postId),
-                        builder: (
-                          context,
-                          AsyncSnapshot<List<Comment>> snapshot,
-                        ) =>
-                            snapshot.hasData && snapshot.data != null
-                                ? Text(
-                                    snapshot.data.length.toString() +
-                                        ' ' +
-                                        S.of(context).comments,
-                                    style: numberOfLikesAndCommentsTextStyle,
-                                  )
-                                : Container(),
-                      ),
-                    ],
+                  child: FutureBuilder(
+                    future: feedViewModel.getComments(post.postId),
+                    builder: (context, AsyncSnapshot<List<Comment>> snapshot) =>
+                        snapshot.hasData && snapshot.data != null
+                            ? Text(
+                                snapshot.data.length.toString() +
+                                    ' ' +
+                                    S.of(context).comments,
+                                style: numberOfLikesAndCommentsTextStyle,
+                              )
+                            : Container(),
                   ),
                 ),
               ),
@@ -124,5 +141,10 @@ class FeedPostDetailsPart extends StatelessWidget {
   _likeIt(BuildContext context) async {
     final feedViewModel = context.read<FeedViewModel>();
     await feedViewModel.likeIt(post);
+  }
+
+  _unLikeIt(BuildContext context) async {
+    final feedViewModel = context.read<FeedViewModel>();
+    await feedViewModel.unLikeIt(post);
   }
 }
