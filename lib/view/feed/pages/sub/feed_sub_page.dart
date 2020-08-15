@@ -24,10 +24,14 @@ class FeedSubPage extends StatelessWidget {
     return Consumer<FeedViewModel>(
       builder: (context, model, child) => feedViewModel.isProcessing
           ? Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemCount: model.posts.length,
-              itemBuilder: (context, index) =>
-                  FeedPostTile(feedMode: feedMode, post: model.posts[index]),
+          : RefreshIndicator(
+              onRefresh: () => feedViewModel.getPosts(feedMode),
+              child: ListView.builder(
+                physics: const AlwaysScrollableScrollPhysics(),
+                itemCount: model.posts.length,
+                itemBuilder: (context, index) =>
+                    FeedPostTile(feedMode: feedMode, post: model.posts[index]),
+              ),
             ),
     );
   }
