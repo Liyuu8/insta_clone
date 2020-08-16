@@ -60,4 +60,32 @@ class ProfileViewModel extends ChangeNotifier {
     final followings = await userRepository.getFollowingUserIds(profileUser);
     return followings.length;
   }
+
+  Future<String> pickProfileImage() async {
+    final imageUrl = await postRepository.pickImage(UploadType.GALLERY);
+    return imageUrl.path;
+  }
+
+  Future<void> updateProfile(
+    String updatedName,
+    String updatedBio,
+    String updatedPhotoUrl,
+    bool isImageFromFile,
+  ) async {
+    isProcessing = true;
+    notifyListeners();
+
+    await userRepository.updateProfile(
+      profileUser,
+      updatedName,
+      updatedBio,
+      updatedPhotoUrl,
+      isImageFromFile,
+    );
+    await userRepository.updateCurrentUserInfo(profileUser.userId);
+    profileUser = currentUser;
+
+    isProcessing = false;
+    notifyListeners();
+  }
 }

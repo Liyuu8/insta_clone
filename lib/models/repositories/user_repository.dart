@@ -1,5 +1,7 @@
+import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:uuid/uuid.dart';
 
 // data models
 import 'package:insta_clone/data_models/user.dart';
@@ -91,5 +93,37 @@ class UserRepository {
 
   Future<List<String>> getFollowingUserIds(User user) async {
     return await dbManager.getFollowingUserIds(user.userId);
+  }
+
+  Future<void> updateProfile(
+    User profileUser,
+    String updatedName,
+    String updatedBio,
+    String updatedPhotoUrl,
+    bool isImageFromFile,
+  ) async {
+    String newStoragePhotoUrl;
+
+    // プロフィール画像が変更された場合、変更後の画像をアップロードする
+    if (isImageFromFile) {
+      final updatedLocalPhotoUrl = updatedPhotoUrl;
+      final updatedPhotoFile = File(updatedLocalPhotoUrl);
+      final storagePath = Uuid().v1();
+      newStoragePhotoUrl =
+          await dbManager.uploadImageToStorage(updatedPhotoFile, storagePath);
+    }
+
+    final notUpdatedUser =
+        await dbManager.getUserInfoFromDbById(profileUser.userId);
+    final updatedUser = notUpdatedUser.copyWith(
+      inAppUserName: updatedName,
+      photoUrl: isImageFromFile ? newStoragePhotoUrl : notUpdatedUser.photoUrl,
+      bio: updatedBio,
+    );
+    await dbManager.updateProfile(updatedUser);
+  }
+
+  Future<void> updateCurrentUserInfo(String userId) async {
+    currentUser = await dbManager.getUserInfoFromDbById(userId);
   }
 }

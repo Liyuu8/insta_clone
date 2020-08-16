@@ -66,3 +66,16 @@ const profileRecordTitleTextStyle = TextStyle(
   fontFamily: RegularFont,
   fontSize: 14.0,
 );
+const changeProfileImageTextStyle = TextStyle(
+  fontFamily: RegularFont,
+  fontSize: 18.0,
+  color: Colors.blueAccent,
+);
+const editProfileTitleTextStyle = TextStyle(
+  fontFamily: RegularFont,
+  fontSize: 14.0,
+);
+const profileBioTextStyle = TextStyle(
+  fontFamily: RegularFont,
+  fontSize: 13.0,
+);
