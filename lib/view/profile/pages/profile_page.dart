@@ -12,6 +12,7 @@ import 'package:insta_clone/view_models/profile_view_model.dart';
 
 // components
 import 'package:insta_clone/view/profile/components/profile_setting_part.dart';
+import 'package:insta_clone/view/profile/components/profile_detail_part.dart';
 
 class ProfilePage extends StatelessWidget {
   final ProfileMode profileMode;
@@ -35,14 +36,11 @@ class ProfilePage extends StatelessWidget {
               pinned: true,
               floating: true,
               actions: <Widget>[
-                ProfileSettingPart(
-                  profileMode: profileMode,
-                ),
+                ProfileSettingPart(profileMode: profileMode),
               ],
               expandedHeight: 280.0,
               flexibleSpace: FlexibleSpaceBar(
-                // TODO: ProfileDetailPart
-                background: Container(),
+                background: ProfileDetailPart(profileMode: profileMode),
               ),
             ),
           ],
