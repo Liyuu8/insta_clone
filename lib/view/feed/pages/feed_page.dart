@@ -33,7 +33,10 @@ class FeedPage extends StatelessWidget {
           onPressed: () => _launchCamera(context),
         ),
       ),
-      body: FeedSubPage(feedMode: FeedMode.MYSELF_AND_FOLLOWING_USERS),
+      body: FeedSubPage(
+        feedMode: FeedMode.MYSELF_AND_FOLLOWING_USERS,
+        index: 0,
+      ),
     );
   }
 

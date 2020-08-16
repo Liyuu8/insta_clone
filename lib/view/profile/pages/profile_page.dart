@@ -13,6 +13,7 @@ import 'package:insta_clone/view_models/profile_view_model.dart';
 // components
 import 'package:insta_clone/view/profile/components/profile_setting_part.dart';
 import 'package:insta_clone/view/profile/components/profile_detail_part.dart';
+import 'package:insta_clone/view/profile/components/profile_posts_grid_part.dart';
 
 class ProfilePage extends StatelessWidget {
   final ProfileMode profileMode;
@@ -43,6 +44,7 @@ class ProfilePage extends StatelessWidget {
                 background: ProfileDetailPart(profileMode: profileMode),
               ),
             ),
+            ProfilePostsGridPart(posts: model.posts),
           ],
         ),
       ),
