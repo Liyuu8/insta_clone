@@ -50,7 +50,7 @@ class DatabaseManager {
       return [];
     }
 
-    List<String> userIds = await _getFollowingUserIds(myUserId);
+    List<String> userIds = await getFollowingUserIds(myUserId);
     userIds.add(myUserId);
 
     return await _db
@@ -83,7 +83,21 @@ class DatabaseManager {
         );
   }
 
-  Future<List<String>> _getFollowingUserIds(String userId) async {
+  Future<List<String>> getFollowerUserIds(String userId) async {
+    final query = await _db
+        .collection('users')
+        .document(userId)
+        .collection('followers')
+        .getDocuments();
+    if (query.documents.length == 0) {
+      return [];
+    }
+
+    return query.documents
+        .map((DocumentSnapshot snapshot) => snapshot.data['userId']);
+  }
+
+  Future<List<String>> getFollowingUserIds(String userId) async {
     final query = await _db
         .collection('users')
         .document(userId)

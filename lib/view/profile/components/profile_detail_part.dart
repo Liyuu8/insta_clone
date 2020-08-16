@@ -59,15 +59,29 @@ class ProfileDetailPart extends StatelessWidget {
                       ),
                     ),
                     Expanded(
-                      child: ProfileRecord(
-                        title: S.of(context).followers,
-                        score: 3, // TODO:
+                      child: FutureBuilder(
+                        future: profileViewModel.getNumberOfFollowers(),
+                        builder: (context, AsyncSnapshot<int> snapshot) {
+                          final numberOfFollowers =
+                              snapshot.hasData ? snapshot.data : 0;
+                          return ProfileRecord(
+                            title: S.of(context).followers,
+                            score: numberOfFollowers,
+                          );
+                        },
                       ),
                     ),
                     Expanded(
-                      child: ProfileRecord(
-                        title: S.of(context).followings,
-                        score: 4, // TODO:
+                      child: FutureBuilder(
+                        future: profileViewModel.getNumberOfFollowings(),
+                        builder: (context, AsyncSnapshot<int> snapshot) {
+                          final numberOfFollowings =
+                              snapshot.hasData ? snapshot.data : 0;
+                          return ProfileRecord(
+                            title: S.of(context).followings,
+                            score: numberOfFollowings,
+                          );
+                        },
                       ),
                     ),
                   ],
@@ -75,8 +89,8 @@ class ProfileDetailPart extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 8.0),
-          ProfileBio(),
+          SizedBox(height: 16.0),
+          ProfileBio(profileMode: profileMode),
         ],
       ),
     );

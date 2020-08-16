@@ -84,4 +84,12 @@ class UserRepository {
     await _auth.signOut();
     currentUser = null;
   }
+
+  Future<List<String>> getFollowerUserIds(User user) async {
+    return await dbManager.getFollowerUserIds(user.userId);
+  }
+
+  Future<List<String>> getFollowingUserIds(User user) async {
+    return await dbManager.getFollowingUserIds(user.userId);
+  }
 }
