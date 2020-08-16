@@ -24,6 +24,8 @@ class ProfilePostsGridPart extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverGrid.count(
       crossAxisCount: 3,
+      mainAxisSpacing: 4.0,
+      crossAxisSpacing: 4.0,
       children: posts.isEmpty
           ? [Container()]
           : List.generate(
