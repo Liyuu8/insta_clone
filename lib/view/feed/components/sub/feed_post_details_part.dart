@@ -22,9 +22,13 @@ import 'package:insta_clone/view/common/components/comment_rich_text.dart';
 
 // screens
 import 'package:insta_clone/view/comments/screens/comments_screen.dart';
+import 'package:insta_clone/view/who_cares_me/screens/who_cares_me_screen.dart';
 
 // view models
 import 'package:insta_clone/view_models/feed_view_model.dart';
+
+// constants
+import 'package:insta_clone/utils/constants.dart';
 
 class FeedPostDetailsPart extends StatelessWidget {
   final User postUser;
@@ -81,8 +85,8 @@ class FeedPostDetailsPart extends StatelessWidget {
                                         : null,
                                     padding: const EdgeInsets.all(1.0),
                                   ),
-                            InkWell(
-                              onTap: () => null, // TODO: いいねしているユーザー一覧画面に遷移する
+                            GestureDetector(
+                              onTap: () => _checkLikesUsers(context),
                               child: Padding(
                                 padding: const EdgeInsets.all(4.0),
                                 child: Text(
@@ -101,11 +105,11 @@ class FeedPostDetailsPart extends StatelessWidget {
               SizedBox(width: 8.0),
               IconButton(
                 icon: FaIcon(FontAwesomeIcons.comment),
-                onPressed: () => _openCommentsScreen(context, post, postUser),
+                onPressed: () => _openCommentsScreen(context),
                 padding: const EdgeInsets.all(1.0),
               ),
-              InkWell(
-                onTap: () => _openCommentsScreen(context, post, postUser),
+              GestureDetector(
+                onTap: () => _openCommentsScreen(context),
                 child: Padding(
                   padding: const EdgeInsets.all(4.0),
                   child: FutureBuilder(
@@ -129,7 +133,7 @@ class FeedPostDetailsPart extends StatelessWidget {
     );
   }
 
-  _openCommentsScreen(BuildContext context, Post post, User postUser) {
+  _openCommentsScreen(BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -146,5 +150,17 @@ class FeedPostDetailsPart extends StatelessWidget {
   _unLikeIt(BuildContext context) async {
     final feedViewModel = context.read<FeedViewModel>();
     await feedViewModel.unLikeIt(post);
+  }
+
+  _checkLikesUsers(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => WhoCaresMeScreen(
+          whoCaresMeMode: WhoCaresMeMode.LIKES,
+          id: post.postId,
+        ),
+      ),
+    );
   }
 }

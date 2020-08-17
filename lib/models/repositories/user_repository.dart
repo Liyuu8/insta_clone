@@ -9,6 +9,9 @@ import 'package:insta_clone/data_models/user.dart';
 // models
 import 'package:insta_clone/models/db/database_manager.dart';
 
+// constants
+import 'package:insta_clone/utils/constants.dart';
+
 class UserRepository {
   final DatabaseManager dbManager;
   UserRepository({this.dbManager});
@@ -141,5 +144,22 @@ class UserRepository {
 
   Future<bool> checkIsFollowing(User profileUser) async {
     return await dbManager.checkIsFollowing(profileUser, currentUser);
+  }
+
+  Future<List<User>> getCaresMeUsers(
+      WhoCaresMeMode whoCaresMeMode, String id) async {
+    List<User> caresMeUsers = [];
+    switch (whoCaresMeMode) {
+      case WhoCaresMeMode.LIKES:
+        // TODO:
+        break;
+      case WhoCaresMeMode.FOLLOWINGS:
+        // TODO:
+        break;
+      case WhoCaresMeMode.FOLLOWERS:
+        // TODO:
+        break;
+    }
+    return caresMeUsers;
   }
 }

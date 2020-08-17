@@ -14,6 +14,7 @@ import 'package:insta_clone/view_models/login_view_model.dart';
 import 'package:insta_clone/view_models/search_view_model.dart';
 import 'package:insta_clone/view_models/post_view_model.dart';
 import 'package:insta_clone/view_models/profile_view_model.dart';
+import 'package:insta_clone/view_models/who_cares_me_view_model.dart';
 
 List<SingleChildWidget> globalProviders = [
   ...independentModels,
@@ -74,6 +75,11 @@ List<SingleChildWidget> viewModels = [
   ),
   ChangeNotifierProvider<SearchViewModel>(
     create: (context) => SearchViewModel(
+      userRepository: context.read<UserRepository>(),
+    ),
+  ),
+  ChangeNotifierProvider<WhoCaresMeViewModel>(
+    create: (context) => WhoCaresMeViewModel(
       userRepository: context.read<UserRepository>(),
     ),
   ),

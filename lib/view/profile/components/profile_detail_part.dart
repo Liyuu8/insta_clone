@@ -67,6 +67,7 @@ class ProfileDetailPart extends StatelessWidget {
                           return ProfileRecord(
                             title: S.of(context).followers,
                             score: numberOfFollowers,
+                            whoCaresMeMode: WhoCaresMeMode.FOLLOWERS,
                           );
                         },
                       ),
@@ -80,6 +81,7 @@ class ProfileDetailPart extends StatelessWidget {
                           return ProfileRecord(
                             title: S.of(context).followings,
                             score: numberOfFollowings,
+                            whoCaresMeMode: WhoCaresMeMode.FOLLOWINGS,
                           );
                         },
                       ),
