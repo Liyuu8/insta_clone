@@ -218,4 +218,24 @@ class DatabaseManager {
         _db.collection('users').document(updatedUser.userId);
     await reference.updateData(updatedUser.toMap());
   }
+
+  Future<List<User>> searchUsers(String queryString, User currentUser) async {
+    final query = await _db
+        .collection('users')
+        .orderBy('inAppUserName')
+        .startAt([queryString]).endAt([queryString + '\uf8ff']).getDocuments();
+    // Firebaseの範囲クエリを使用
+    // https://firebase.google.com/docs/database/rest/retrieve-data?hl=ja#range-queries
+
+    return query.documents.length == 0
+        ? []
+        : query.documents
+            .where(
+              // 自身のユーザー情報を除去
+              (DocumentSnapshot snapshot) =>
+                  User.fromMap(snapshot.data).userId != currentUser.userId,
+            )
+            .map((DocumentSnapshot snapshot) => User.fromMap(snapshot.data))
+            .toList();
+  }
 }
