@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:insta_clone/style.dart';
 import 'package:provider/provider.dart';
+
+// style
+import 'package:insta_clone/style.dart';
 
 // generated
 import 'package:insta_clone/generated/l10n.dart';

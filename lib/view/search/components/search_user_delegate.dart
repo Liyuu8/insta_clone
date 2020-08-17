@@ -47,7 +47,6 @@ class SearchUserDelegate extends SearchDelegate<User> {
     return _buildResults(context);
   }
 
-  // TODO: ユーザー検索処理
   Widget _buildResults(BuildContext context) {
     final searchViewModel =
         Provider.of<SearchViewModel>(context, listen: false);
