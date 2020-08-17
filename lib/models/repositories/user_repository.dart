@@ -148,18 +148,21 @@ class UserRepository {
 
   Future<List<User>> getCaresMeUsers(
       WhoCaresMeMode whoCaresMeMode, String id) async {
-    List<User> caresMeUsers = [];
+    List<String> caresMeUserIds = [];
     switch (whoCaresMeMode) {
       case WhoCaresMeMode.LIKES:
-        // TODO:
+        final postId = id;
+        caresMeUserIds = await dbManager.getLikeMeUserIds(postId);
         break;
       case WhoCaresMeMode.FOLLOWINGS:
-        // TODO:
+        final profileUserId = id;
+        caresMeUserIds = await dbManager.getFollowingUserIds(profileUserId);
         break;
       case WhoCaresMeMode.FOLLOWERS:
-        // TODO:
+        final profileUserId = id;
+        caresMeUserIds = await dbManager.getFollowerUserIds(profileUserId);
         break;
     }
-    return caresMeUsers;
+    return await dbManager.getUsersById(caresMeUserIds);
   }
 }

@@ -37,27 +37,37 @@ class WhoCaresMeScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(_getTitleText(context, whoCaresMeMode)),
       ),
-      body: ListView.builder(
-        itemCount: whoCaresMeViewModel.caresMeUsers.length,
-        itemBuilder: (context, int index) {
-          final caresMeUser = whoCaresMeViewModel.caresMeUsers[index];
-          return UserCard(
-            photoUrl: caresMeUser.photoUrl,
-            title: caresMeUser.inAppUserName,
-            subTitle: caresMeUser.bio,
-            onTap: () => _openUserProfile(context, caresMeUser),
-          );
-        },
+      body: Consumer<WhoCaresMeViewModel>(
+        builder: (context, model, child) => model.caresMeUsers.isNotEmpty
+            ? ListView.builder(
+                itemCount: model.caresMeUsers.length,
+                itemBuilder: (context, int index) {
+                  final caresMeUser = model.caresMeUsers[index];
+                  return UserCard(
+                    photoUrl: caresMeUser.photoUrl,
+                    title: caresMeUser.inAppUserName,
+                    subTitle: caresMeUser.bio,
+                    onTap: () => _openUserProfile(
+                      context,
+                      caresMeUser,
+                      model.currentUser,
+                    ),
+                  );
+                },
+              )
+            : Container(),
       ),
     );
   }
 
-  _openUserProfile(BuildContext context, User caresMeUser) {
+  _openUserProfile(BuildContext context, User caresMeUser, User currentUser) {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (_) => ProfileScreen(
-          profileMode: ProfileMode.OTHER,
+          profileMode: caresMeUser.userId == currentUser.userId
+              ? ProfileMode.MYSELF
+              : ProfileMode.OTHER,
           selectedUser: caresMeUser,
         ),
       ),

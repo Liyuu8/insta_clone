@@ -14,6 +14,7 @@ class WhoCaresMeViewModel extends ChangeNotifier {
   WhoCaresMeViewModel({this.userRepository});
 
   List<User> caresMeUsers = [];
+  User get currentUser => UserRepository.currentUser;
 
   Future<void> getCaresMeUsers(WhoCaresMeMode whoCaresMeMode, String id) async {
     caresMeUsers = await userRepository.getCaresMeUsers(whoCaresMeMode, id);

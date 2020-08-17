@@ -282,4 +282,40 @@ class DatabaseManager {
         .getDocuments();
     return query.documents.length > 0;
   }
+
+  Future<List<String>> getLikeMeUserIds(String postId) async {
+    final query = await _db
+        .collection('likes')
+        .where('likedPostId', isEqualTo: postId)
+        .getDocuments();
+    return query.documents.length == 0
+        ? []
+        : query.documents
+            .map(
+              (DocumentSnapshot snapshot) =>
+                  Like.fromMap(snapshot.data).likeUserId,
+            )
+            .toList();
+  }
+
+  Future<List<User>> getUsersById(List<String> userIds) async {
+    return userIds.length == 0
+        ? []
+        : Future.wait(
+            userIds.map(
+              (userId) => getUserInfoFromDbById(userId),
+            ),
+          );
+
+    // ~ NG CODE ~
+    // E/flutter (27479): [ERROR:flutter/lib/ui/ui_dart_state.cc(157)]
+    // Unhandled Exception: type 'List<Future<User>>' is not a subtype of
+    // type 'FutureOr<List<User>>'
+    //
+    // return userIds.length == 0
+    //     ? []
+    //     : userIds
+    //         .map((userId) => getUserInfoFromDbById(userId))
+    //         .toList();
+  }
 }
