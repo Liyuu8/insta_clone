@@ -7,6 +7,9 @@ import 'package:insta_clone/data_models/user.dart';
 // view models
 import 'package:insta_clone/view_models/search_view_model.dart';
 
+// components
+import 'package:insta_clone/view/common/components/user_card.dart';
+
 class SearchUserDelegate extends SearchDelegate<User> {
   @override
   ThemeData appBarTheme(BuildContext context) {
@@ -49,6 +52,18 @@ class SearchUserDelegate extends SearchDelegate<User> {
     final searchViewModel =
         Provider.of<SearchViewModel>(context, listen: false);
     searchViewModel.searchUsers(query);
-    return Container();
+
+    return ListView.builder(
+      itemCount: searchViewModel.soughtUsers.length,
+      itemBuilder: (context, int index) {
+        final user = searchViewModel.soughtUsers[index];
+        return UserCard(
+          photoUrl: user.photoUrl,
+          title: user.inAppUserName,
+          subTitle: user.bio,
+          onTap: () => close(context, user),
+        );
+      },
+    );
   }
 }

@@ -6,6 +6,12 @@ import 'package:insta_clone/generated/l10n.dart';
 // style
 import 'package:insta_clone/style.dart';
 
+// utils
+import 'package:insta_clone/utils/constants.dart';
+
+// screens
+import 'package:insta_clone/view/profile/screens/profile_screen.dart';
+
 // components
 import 'package:insta_clone/view/search/components/search_user_delegate.dart';
 
@@ -35,7 +41,18 @@ class SearchPage extends StatelessWidget {
       context: context,
       delegate: SearchUserDelegate(),
     );
+    if (selectedUser == null) {
+      return;
+    }
 
-    // TODO: ユーザー検索結果後の処理
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => ProfileScreen(
+          profileMode: ProfileMode.OTHER,
+          selectedUser: selectedUser,
+        ),
+      ),
+    );
   }
 }
