@@ -89,12 +89,14 @@ class DatabaseManager {
         .document(userId)
         .collection('followers')
         .getDocuments();
-    if (query.documents.length == 0) {
-      return [];
-    }
 
-    return query.documents
-        .map((DocumentSnapshot snapshot) => snapshot.data['userId']);
+    return query.documents.length == 0
+        ? []
+        : query.documents
+            .map(
+              (DocumentSnapshot snapshot) => User.fromMap(snapshot.data).userId,
+            )
+            .toList();
   }
 
   Future<List<String>> getFollowingUserIds(String userId) async {
@@ -103,12 +105,14 @@ class DatabaseManager {
         .document(userId)
         .collection('followings')
         .getDocuments();
-    if (query.documents.length == 0) {
-      return [];
-    }
 
-    return query.documents
-        .map((DocumentSnapshot snapshot) => snapshot.data['userId']);
+    return query.documents.length == 0
+        ? []
+        : query.documents
+            .map(
+              (DocumentSnapshot snapshot) => User.fromMap(snapshot.data).userId,
+            )
+            .toList();
   }
 
   Future<void> updatePost(Post updatedPost) async {
@@ -237,5 +241,45 @@ class DatabaseManager {
             )
             .map((DocumentSnapshot snapshot) => User.fromMap(snapshot.data))
             .toList();
+  }
+
+  Future<void> follow(User profileUser, User currentUser) async {
+    await _db
+        .collection('users')
+        .document(currentUser.userId)
+        .collection('followings')
+        .document(profileUser.userId)
+        .setData({'userId': profileUser.userId});
+    await _db
+        .collection('users')
+        .document(profileUser.userId)
+        .collection('followers')
+        .document(currentUser.userId)
+        .setData({'userId': currentUser.userId});
+  }
+
+  Future<void> unFollow(User profileUser, User currentUser) async {
+    await _db
+        .collection('users')
+        .document(currentUser.userId)
+        .collection('followings')
+        .document(profileUser.userId)
+        .delete();
+    await _db
+        .collection('users')
+        .document(profileUser.userId)
+        .collection('followers')
+        .document(currentUser.userId)
+        .delete();
+  }
+
+  Future<bool> checkIsFollowing(User profileUser, User currentUser) async {
+    final query = await _db
+        .collection('users')
+        .document(currentUser.userId)
+        .collection('followings')
+        .where('userId', isEqualTo: profileUser.userId)
+        .getDocuments();
+    return query.documents.length > 0;
   }
 }

@@ -14,6 +14,5 @@ class SearchViewModel extends ChangeNotifier {
 
   Future<void> searchUsers(String query) async {
     soughtUsers = await userRepository.searchUsers(query);
-    print(soughtUsers.toList());
   }
 }

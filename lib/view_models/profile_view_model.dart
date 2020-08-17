@@ -20,10 +20,14 @@ class ProfileViewModel extends ChangeNotifier {
   User get currentUser => UserRepository.currentUser;
   bool isProcessing = false;
   List<Post> posts = [];
+  bool isFollowingProfileUser = false;
 
   void setProfileUser(ProfileMode profileMode, User selectedUser) {
     profileUser =
         profileMode == ProfileMode.MYSELF ? currentUser : selectedUser;
+    if (profileMode == ProfileMode.OTHER) {
+      _checkIsFollowing();
+    }
   }
 
   Future<void> getPosts() async {
@@ -86,6 +90,23 @@ class ProfileViewModel extends ChangeNotifier {
     profileUser = currentUser;
 
     isProcessing = false;
+    notifyListeners();
+  }
+
+  Future<void> followProfileUser() async {
+    await userRepository.follow(profileUser);
+    isFollowingProfileUser = true;
+    notifyListeners();
+  }
+
+  Future<void> unFollowProfileUser() async {
+    await userRepository.unFollow(profileUser);
+    isFollowingProfileUser = false;
+    notifyListeners();
+  }
+
+  Future<void> _checkIsFollowing() async {
+    isFollowingProfileUser = await userRepository.checkIsFollowing(profileUser);
     notifyListeners();
   }
 }

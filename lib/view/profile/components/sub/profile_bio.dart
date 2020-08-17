@@ -23,6 +23,7 @@ class ProfileBio extends StatelessWidget {
     final profileViewModel =
         Provider.of<ProfileViewModel>(context, listen: false);
     final profileUser = profileViewModel.profileUser;
+    final isFollowing = profileViewModel.isFollowingProfileUser;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,8 +40,14 @@ class ProfileBio extends StatelessWidget {
             ),
             child: profileMode == ProfileMode.MYSELF
                 ? Text(S.of(context).editProfile)
-                : Text(S.of(context).follow), // TODO: フォローしているかの判定
-            onPressed: () => _openEditProfileScreen(context),
+                : isFollowing
+                    ? Text(S.of(context).unFollow)
+                    : Text(S.of(context).follow),
+            onPressed: () => profileMode == ProfileMode.MYSELF
+                ? _openEditProfileScreen(context)
+                : isFollowing
+                    ? _unFollowProfileUser(context)
+                    : _followProfileUser(context),
           ),
         )
       ],
@@ -52,5 +59,15 @@ class ProfileBio extends StatelessWidget {
       context,
       MaterialPageRoute(builder: (_) => EditProfileScreen()),
     );
+  }
+
+  _followProfileUser(BuildContext context) {
+    final profileViewModel = context.read<ProfileViewModel>();
+    profileViewModel.followProfileUser();
+  }
+
+  _unFollowProfileUser(BuildContext context) {
+    final profileViewModel = context.read<ProfileViewModel>();
+    profileViewModel.unFollowProfileUser();
   }
 }
