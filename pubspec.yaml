@@ -50,6 +50,7 @@ dependencies:
   timeago: ^2.0.26
   share: ^0.6.4+3
   scrollable_positioned_list: ^0.1.7
+  shared_preferences: ^0.5.8
 
 dev_dependencies:
   flutter_test:

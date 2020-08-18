@@ -9,6 +9,7 @@ import 'package:insta_clone/utils/constants.dart';
 
 // view models
 import 'package:insta_clone/view_models/profile_view_model.dart';
+import 'package:insta_clone/view_models/theme_change_view_model.dart';
 
 // screens
 import 'package:insta_clone/view/login/screens/login_screen.dart';
@@ -19,6 +20,9 @@ class ProfileSettingPart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeChangeViewModel = context.watch<ThemeChangeViewModel>();
+    final isDarkOn = themeChangeViewModel.isDark;
+
     return PopupMenuButton(
       icon: Icon(Icons.settings),
       onSelected: (value) => _onPopupMenuSelected(context, value),
@@ -26,7 +30,9 @@ class ProfileSettingPart extends StatelessWidget {
           ? [
               PopupMenuItem(
                 value: ProfileSettingMenu.THEME_CHANGE,
-                child: Text(S.of(context).changeToLightTheme),
+                child: isDarkOn
+                    ? Text(S.of(context).changeToLightTheme)
+                    : Text(S.of(context).changeToDarkTheme),
               ),
               PopupMenuItem(
                 value: ProfileSettingMenu.SIGN_OUT,
@@ -42,10 +48,14 @@ class ProfileSettingPart extends StatelessWidget {
     );
   }
 
-  _onPopupMenuSelected(BuildContext context, ProfileSettingMenu selectedMenu) {
+  _onPopupMenuSelected(
+    BuildContext context,
+    ProfileSettingMenu selectedMenu,
+  ) {
     switch (selectedMenu) {
       case ProfileSettingMenu.THEME_CHANGE:
-        // TODO:
+        final themeChangeViewModel = context.read<ThemeChangeViewModel>();
+        themeChangeViewModel.setTheme();
         break;
       case ProfileSettingMenu.SIGN_OUT:
         _signOut(context);

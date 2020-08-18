@@ -4,6 +4,23 @@ const TitleFont = 'Billabong';
 const RegularFont = 'NotoSansJP_Medium';
 const BoldFont = 'NotoSansJP_Bold';
 
+// Theme
+final darkTheme = ThemeData(
+  brightness: Brightness.dark,
+  buttonColor: Colors.white30,
+  primaryIconTheme: IconThemeData(color: Colors.white),
+  iconTheme: IconThemeData(color: Colors.white),
+  fontFamily: RegularFont,
+);
+final lightTheme = ThemeData(
+  primaryColor: Colors.white,
+  brightness: Brightness.light,
+  buttonColor: Colors.white,
+  primaryIconTheme: IconThemeData(color: Colors.black),
+  iconTheme: IconThemeData(color: Colors.black),
+  fontFamily: RegularFont,
+);
+
 // Login
 const loginTitleTextStyle = TextStyle(
   fontFamily: TitleFont,
