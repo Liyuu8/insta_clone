@@ -41,6 +41,7 @@ class FeedPostTile extends StatelessWidget {
                     ),
                     ImageFromUrl(imageUrl: post.imageUrl),
                     FeedPostDetailsPart(postUser: snapshot.data, post: post),
+                    Divider(),
                   ],
                 )
               : Container(),
