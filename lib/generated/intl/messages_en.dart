@@ -29,7 +29,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "cancel" : MessageLookupByLibrary.simpleMessage("Cancel"),
     "cancelConfirm" : MessageLookupByLibrary.simpleMessage("Are you sure to want cancel?"),
     "changeProfilePhoto" : MessageLookupByLibrary.simpleMessage("Change Profile Photo"),
-    "changeToDarkTheme" : MessageLookupByLibrary.simpleMessage("Change to Dart Theme"),
+    "changeToDarkTheme" : MessageLookupByLibrary.simpleMessage("Change to Dark Theme"),
     "changeToLightTheme" : MessageLookupByLibrary.simpleMessage("Change to Light Theme"),
     "city" : MessageLookupByLibrary.simpleMessage("City"),
     "comments" : MessageLookupByLibrary.simpleMessage("Comments"),
